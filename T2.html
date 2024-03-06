@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tesla Car Service</title>
+</head>
+<body>
+    <h1>Control Your Tesla</h1>
+    <button onclick="getVehicleIdAndSendCommand('door_unlock')">Unlock Car</button>
+    <button onclick="getVehicleIdAndSendCommand('door_lock')">Lock Car</button>
+    <button onclick="getVehicleIdAndSendCommand('honk_horn')">Honk Horn</button>
+    <button onclick="getVehicleIdAndSendCommand('flash_lights')">Flash Lights</button>
+    <button onclick="getVehicleIdAndSendCommand('set_temperature', { temperature: 22.5 })">Set Temperature</button>
+    <!-- Add more buttons for different API calls -->
+
+    <script>
+        const accessToken = 'YOUR_TESLA_API_ACCESS_TOKEN';
+
+        async function getVehicleIdAndSendCommand(command, data = {}) {
+            const response = await fetch('https://owner-api.teslamotors.com/api/1/vehicles', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok) {
+                const vehicleId = responseData.response[0].id; // Use the first vehicle in the list
+                sendCommand(vehicleId, command, data);
+            } else {
+                alert(`Error: ${responseData.response.reason}`);
+            }
+        }
+
+        async function sendCommand(vehicleId, command, data = {}) {
+            const response = await fetch(`https://owner-api.teslamotors.com/api/1/vehicles/${vehicleId}/command/${command}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok) {
+                alert(`Command "${command}" sent successfully!`);
+            } else {
+                alert(`Error: ${responseData.response.reason}`);
+            }
+        }
+    </script>
+</body>
+</html>
