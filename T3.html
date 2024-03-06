@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tesla Car Service</title>
+</head>
+<body>
+    <h1>Control Your Tesla</h1>
+    <button onclick="sendTeslaMateCommand('UNLOCK')">Unlock Car</button>
+    <button onclick="sendTeslaMateCommand('LOCK')">Lock Car</button>
+    <button onclick="sendTeslaMateCommand('HONK')">Honk Horn</button>
+    <button onclick="sendTeslaMateCommand('FLASH')">Flash Lights</button>
+    <!-- Add more buttons for different commands -->
+
+    <script>
+        async function sendTeslaMateCommand(command) {
+            const response = await fetch('https://your-teslamate-url.com/api/vehicle/commands', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ command: command })
+            });
+
+            if (response.ok) {
+                alert(`Command "${command}" sent successfully!`);
+            } else {
+                const errorMessage = await response.text();
+                alert(`Error: ${errorMessage}`);
+            }
+        }
+    </script>
+</body>
+</html>
