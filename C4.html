@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .text {
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            color: #333;
+            position: absolute;
+            animation: moveText 10s linear infinite;
+        }
+
+        @keyframes moveText {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="text" id="dynamicText"></div>
+    </div>
+
+    <script>
+        const words = ['Innovate', 'Create', 'Inspire', 'Imagine', 'Transform'];
+        const dynamicText = document.getElementById('dynamicText');
+
+        function generateRandomText() {
+            const randomIndex = Math.floor(Math.random() * words.length);
+            dynamicText.textContent = words[randomIndex];
+        }
+
+        setInterval(generateRandomText, 3000);
+    </script>
+</body>
+
+</html>
