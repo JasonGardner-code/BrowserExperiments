@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+  <script>
+
+    function doNothing() { }
+    function f0() {
+      try { var v25 = x9.contentWindow; } catch (e) { }
+      try { var v49 = document.createNodeIterator(x53); } catch (e) { }
+      try { var v51 = v25.self; } catch (e) { }
+      try { v51.name = ""; } catch (e) { }
+      try { v49.pointerBeforeReferenceNode; } catch (e) { }
+    }
+  </script>
+</head>
+
+<body onload="f0()">
+
+  <iframe id="x9" src="x">
+  </iframe>
+
+    <frame onclick="f0()" itemgroup="">
+
+
+
+    </frame>
+
+  <h2s onfocusin="f0()">
+    <style>
+    </style>
+    <input autofocus="" onblur="f0()">
+  </h2>
+  <iframe>
+  </iframe>
+
+</body>
+</html>
