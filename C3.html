@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script>
+    function f0() {
+      try {
+        var v14 = x42.contentWindow;
+        v14.name = "";
+      } catch (e) {
+        console.error("An error occurred in f0(): " + e.message);
+        console.trace();
+      }
+    }
+
+    function f1() {
+      try {
+        x1.setCustomValidity("AAAAAAAAAAAAAAAAAAAA");
+        x1.reportValidity();
+      } catch (e) {
+        console.error("An error occurred in f1(): " + e.message);
+        console.trace();
+      }
+    }
+
+    function f2() {
+      try {
+        x19.name = "some-name";
+        x23.click();
+      } catch (e) {
+        console.error("An error occurred in f2(): " + e.message);
+        console.trace();
+      }
+    }
+
+    function f3() {
+      try {
+        throw new Error("This is a custom error message");
+      } catch (e) {
+        console.error("An error occurred in f3(): " + e.message);
+        console.trace();
+      }
+    }
+
+    function f4() {
+      try {
+        x1.nonExistentFunction(); // Triggering an error by calling a non-existent function
+      } catch (e) {
+        console.error("An error occurred in f4(): " + e.message);
+        console.trace();
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <embed id="x19" type="video/mp4"></embed>
+  <iframe id="x42" srcdoc="some-path"></iframe>
+  <button id="x1" onfocus="f0()"></button>
+  <q id="x23" onclick="f1()"></q>
+  <textarea autofocus="" onfocusin="f2()"></textarea>
+  <details ontoggle="f3()" open=""></details>
+  <button onclick="f4()"></button>
+</body>
+
+</html>
