@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <script>
+    function f0() {
+      try { var v14 = x42.contentWindow; } catch (e) { }
+      try { v14.name = ""; } catch (e) { }
+    }
+    function f1() {
+      try { x1.setCustomValidity("AAAAAAAAAAAAAAAAAAAA"); } catch (e) { }
+    }
+    function f2() {
+      try { x19.name = "some-name"; } catch (e) { }
+      try { x23.click(); } catch (e) { }
+    }
+    function f4() {
+      try { x1.reportValidity(); } catch (e) { }
+    }
+  </script>
+</head>
+
+<body>
+    <embed
+     id="x19"
+ type="video/mp4">
+      <iframe id="x42" srcdoc="some-path">
+      </iframe>
+  <button id="x1"
+ onfocus="f0()">
+    <q id="x23" onclick="f4()">
+    </q>
+  </button>
+    <textarea autofocus=""  onfocusin="f1()">
+</textarea>
+
+    <details ontoggle="f2()" open="">
+    </details>
+
+</body>
+
+</html>
