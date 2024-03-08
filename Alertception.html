@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bizarre Alert Nesting</title>
+</head>
+
+<body>
+    <script>
+        alert("Welcome to the Bizarre Alert Nesting!");
+        setTimeout(() => {
+            alert("You are about to witness a series of nested alerts :)!");
+            setTimeout(() => {
+                alert("Get ready for the unexpected!");
+                setTimeout(() => {
+                    alert("Here we go...");
+                    setTimeout(() => {
+                        alert("Alert-ception: An alert within an alert within an alert!");
+                        setTimeout(() => {
+                            alert("Mind-blowing, isn't it? xD");
+                        }, 2000);
+                    }, 2000);
+                }, 2000);
+            }, 2000);
+        }, 2000);
+    </script>
+</body>
+
+</html>
