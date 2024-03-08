@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiP-style Modal Window with Glitch and Rotation Effects</title>
+    <style>
+        .modal {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 300px;
+            height: 200px;
+            border: 2px solid #333;
+            background-color: #000;
+            z-index: 9999;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .glitch {
+            color: #fff;
+            position: relative;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .glitch:before,
+        .glitch:after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip: rect(0, 300px, 200px, 0);
+        }
+
+        .glitch:before {
+            left: 2px;
+            text-shadow: -2px 0 red;
+            animation: glitch 0.3s infinite;
+        }
+
+        .glitch:after {
+            left: -2px;
+            text-shadow: -2px 0 blue;
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-2px, -2px);
+            }
+            40% {
+                transform: translate(2px, 2px);
+            }
+            60% {
+                transform: translate(-2px, -2px);
+            80% {
+                transform: translate(2px, 2px);
+            }
+            100% {
+                transform: translate(-1px, -1px);
+            }
+        }
+
+        .modal-content {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="modal">
+        <div class="modal-content">
+            <div class="glitch" data-text="Glitching Image">
+                <img src="https://jasongardner.us/Dynamic2.html" alt="Glitch Image" style="max-width: 100%; max-height: 100%;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            document.querySelector('.modal').style.display = 'block';
+        }, 2000);
+    </script>
+</body>
+
+</html>
