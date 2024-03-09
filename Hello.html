@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visitor Alert</title>
+</head>
+<body>
+    <h1>Visitor Alert</h1>
+
+    <form id="visitorForm">
+        <label for="message">Message:</label><br>
+        <input type="text" id="message" name="message"><br><br>
+
+        <label for="photo">Photo:</label><br>
+        <input type="file" id="photo" name="photo"><br><br>
+
+        <button type="button" onclick="sendVisitorData()">Send</button>
+    </form>
+
+    <script>
+        // Function to send visitor data and message/photo to webhook URL
+        async function sendVisitorData() {
+            const visitorData = {
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                platform: navigator.platform,
+                screenWidth: window.screen.width,
+                screenHeight: window.screen.height,
+                timezone: new Date().getTimezoneOffset(),
+                location: window.location.href,
+                message: document.getElementById('message').value
+            };
+
+            const photoFile = document.getElementById('photo').files[0];
+            if (photoFile) {
+                visitorData.photo = await getBase64(photoFile);
+            }
+
+            const webhookURL = 'https://discord.com/api/webhooks/1099806912956088412/iejfzOQx5u4EcV-Gba7Ki1zV_Y7ERIOTFM6HnQPXHPJ5kGbRPDYWjq3KcrEaTQXyEUze'; // Replace with your actual webhook URL
+
+            const response = await fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(visitorData)
+            });
+
+            if (response.ok) {
+                console.log('Visitor data sent successfully');
+            } else {
+                console.error('Error sending visitor data');
+            }
+        }
+
+        // Function to convert file to base64
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+    </script>
+</body>
+</html
