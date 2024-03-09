@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Code Background</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            background-color: black;
+            color: #00FF00;
+        }
+
+        .code {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 18px;
+            animation: fall 0.1s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="code">
+        <!-- Insert your matrix code here -->
+        <!-- You can generate the falling code using JavaScript or pre-defined text -->
+        <!-- For example, a loop to generate random characters -->
+        <!-- Or using pre-defined text like below -->
+        <!-- You can enhance this with more code or effects -->
+        <!-- For better effect, consider adjusting font size, speed, and density of characters -->
+        <pre>
+            01010100 01101000 01100101 00100000 01001101 01100001 01110100 01110010 01101001 01111000
+            00100000 01001001 01110011 00100000 01001111 01110101 01110100 00101100 00100000 01010100
+            01101000 01100101 00100000 01001101 01100001 01101...
+        </pre>
+    </div>
+</body>
+</html>
