@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raining Code Effect</title>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        font-family: 'Courier New', monospace;
+        background-color: black;
+        color: green;
+    }
+
+    .code {
+        position: absolute;
+        font-size: 16px;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100vh;
+        z-index: -1; /* Code behind the overlay text */
+    }
+
+    .overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 40px;
+        color: green;
+        mix-blend-mode: difference; /* Glitch effect */
+        animation: glitch 2s infinite;
+        z-index: 1; /* Overlay text on top of the code */
+    }
+
+    @keyframes glitch {
+        0% { color: green; }
+        25% { color: white; }
+        50% { color: #39ff14; } /* Neon green */
+        75% { color: white; }
+        100% { color: green; }
+    }
+</style>
+</head>
+<body>
+<div class="code"></div>
+<div class="overlay">Your Name</div>
+<script>
+    const codeContainer = document.querySelector('.code');
+
+    function updateCode() {
+        const codeSnippet = Math.random().toString(2).slice(2);
+        codeContainer.innerText += codeSnippet + '\n';
+        window.scrollTo(0, document.body.scrollHeight);
+        
+        // Reset code container position to the top if it reaches the bottom
+        if (codeContainer.getBoundingClientRect().bottom >= window.innerHeight) {
+            codeContainer.innerText = codeSnippet + '\n';
+        }
+    }
+
+    setInterval(updateCode, 50);
+</script>
+</body>
+</html>
