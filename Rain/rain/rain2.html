@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Code Background</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            background-color: black;
+        }
+
+        .code {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 18px;
+            animation: fall 0.1s linear infinite, twinkle 2s infinite, glitch 5s infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        @keyframes twinkle {
+            0% {
+                color: #00FF00; /* Green */
+            }
+            50% {
+                color: #39FF14; /* Neon Green */
+            }
+            100% {
+                color: #90EE90; /* Light Green */
+            }
+        }
+
+        @keyframes glitch {
+            0%, 100% {
+                clip: rect(0, auto, 2em, 0);
+            }
+            5%, 55% {
+                clip: rect(4em, auto, 2em, 0);
+            }
+            10%, 60% {
+                clip: rect(2em, auto, 4em, 0);
+            }
+            15%, 75% {
+                clip: rect(1em, auto, 3em, 0);
+            }
+            20%, 80% {
+                clip: rect(3em, auto, 1em, 0);
+            }
+            25%, 85% {
+                clip: rect(0, auto, 0, 0);
+            }
+            30%, 90% {
+                clip: rect(1em, auto, 1em, 0);
+            }
+            35%, 95% {
+                clip: rect(3em, auto, 3em, 0);
+            }
+            40%, 100% {
+                clip: rect(0, auto, 4em, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="code">
+        <pre>
+            010101010101001010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
+        </pre>
+    </div>
+</body>
+</html>
