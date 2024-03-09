@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visitor Alert</title>
+</head>
+<body>
+    <h1>Visitor Alert</h1>
+
+    <script>
+        // Function to send visitor data to webhook URL
+        async function sendVisitorAlert() {
+            const visitorData = {
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                platform: navigator.platform,
+                screenWidth: window.screen.width,
+                screenHeight: window.screen.height,
+                timezone: new Date().getTimezoneOffset(),
+                location: window.location.href
+            };
+
+            const webhookURL = 'https://discord.com/api/webhooks/1099806912956088412/iejfzOQx5u4EcV-Gba7Ki1zV_Y7ERIOTFM6HnQPXHPJ5kGbRPDYWjq3KcrEaTQXyEUze'; // Replace with your actual webhook URL
+
+            const response = await fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(visitorData)
+            });
+
+            if (response.ok) {
+                console.log('Visitor data sent successfully');
+            } else {
+                console.error('Error sending visitor data');
+            }
+        }
+
+        // Send visitor alert when page is loaded
+        sendVisitorAlert();
+    </script>
+</body>
+</html>
