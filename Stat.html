@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server Stats</title>
+<script>
+    // Function to fetch server stats data and update the page
+    async function fetchServerStats() {
+        const response = await fetch('/server-status', { method: 'GET', mode: 'cors'}); // Fetch server stats data
+        const text = await response.text(); // Get the response as text
+        
+        // Extract and display the relevant server stats
+        const cpuUsage = text.match(/Load\sAverage:\s([\d.]+)/);
+        const currentVisitors = text.match(/BusyWorkers:\s(\d+)/);
+
+        document.getElementById('cpu-usage').innerText = `CPU Usage: ${cpuUsage ? cpuUsage[1] : 'N/A'}`;
+        document.getElementById('visitor-count').innerText = `Current Visitors: ${currentVisitors ? currentVisitors[1] : 'N/A'}`;
+    }
+
+    // Update server stats every 5 seconds
+    setInterval(fetchServerStats, 5000);
+</script>
+</head>
+<body>
+    <h1>Server Stats</h1>
+    <div id="cpu-usage">CPU Usage: Loading...</div>
+    <div id="visitor-count">Current Visitors: Loading...</div>
+</body>
