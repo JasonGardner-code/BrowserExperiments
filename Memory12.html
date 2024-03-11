@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Audio Loading and Volume Control</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+        #volumeControl { margin: 10px; }
+    </style>
+</head>
+<body>
+    <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="0.5">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.130.1/build/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 10, 50);
+        
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const listener = new THREE.AudioListener();
+        camera.add(listener);
+
+        const sound = new THREE.Audio(listener);
+        const audioLoader = new THREE.AudioLoader();
+        
+        function loadAudio(url) {
+            audioLoader.load(url, function (buffer) {
+                sound.setBuffer(buffer);
+                sound.setVolume(document.getElementById('volumeControl').value);
+                sound.play();
+            });
+        }
+
+        loadAudio('sounds/cyberpunk_city.mp3');
+
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        const box = new THREE.Mesh(geometry, material);
+        scene.add(box);
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        document.getElementById('volumeControl').addEventListener('input', function() {
+            sound.setVolume(this.value);
+        });
+    </script>
+</body>
+</html>
