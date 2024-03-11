@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+    function consumeMemory() {
+        let calculations = [];
+
+        function fibonacci(n) {
+            if (n <= 1) {
+                return n;
+            } else {
+                return fibonacci(n - 1) + fibonacci(n - 2);
+            }
+        }
+
+        for (let i = 0; i < 1000; i++) {
+            calculations.push(fibonacci(40)); // Increase the Fibonacci sequence number for more memory consumption
+        }
+    }
+</script>
+</head>
+<body>
+<button onclick="consumeMemory()">Consume Memory</button>
+</body>
+</html>
