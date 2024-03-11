@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+    function consumeMemory() {
+        let calculations = [];
+
+        function complexCalculation(num) {
+            if (num === 0) {
+                return 0;
+            } else {
+                return num + complexCalculation(num - 1) * num;
+            }
+        }
+
+        for (let i = 0; i < 10000; i++) {
+            calculations.push(complexCalculation(10000));
+        }
+    }
+</script>
+</head>
+<body>
+<button onclick="consumeMemory()">Consume Memory</button>
+</body>
+</html>
