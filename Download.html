@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download ZIP File</title>
+</head>
+<body>
+    <script>
+        // Function to initiate the download
+        function downloadFile() {
+            const fileUrl = 'example.zip'; // Specify the URL of the zip file
+            const fileName = 'example.zip'; // Specify the filename for the downloaded file
+
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Automatically trigger the download upon page load
+        window.onload = function() {
+            downloadFile();
+        };
+    </script>
+</body>
+</html>
