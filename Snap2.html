@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+    function triggerEnterpriseMemoryIssues() {
+        // Heap Spraying
+        let sprayArray = [];
+        for (let i = 0; i < 10000; i++) {
+            sprayArray.push(new Uint8Array(4096));
+        }
+        
+        // Use-After-Free
+        let div = document.getElementById("div1");
+        setTimeout(() => {
+            document.body.removeChild(div);
+            console.log(div.textContent); // Accessing freed memory
+        }, 1000);
+
+        // Buffer Overflow
+        let buffer = new ArrayBuffer(4);
+        let intArray = new Uint32Array(buffer);
+        intArray[5] = 123; // Writing beyond the allocated buffer size
+
+        // Dangling Pointer
+        let p1 = document.createElement("p");
+        let p2 = p1;
+        document.body.removeChild(p1);
+        console.log(p2.textContent); // Accessing a dangling pointer
+
+        // Recursive Function causing Stack Overflow
+        function recursiveFunction() {
+            recursiveFunction();
+        }
+        recursiveFunction();
+
+        // Event Listener Memory Leak
+        function addEventListener() {
+            document.getElementById("btn").addEventListener("click", () => {
+                console.log("Button clicked");
+            });
+            setTimeout(() => {
+                document.getElementById("btn").removeEventListener("click", () => {
+                    console.log("Button clicked");
+                });
+            }, 500);
+        }
+        addEventListener();
+    }
+</script>
+</head>
+<body>
+<div id="div1">Test</div>
+<button id="btn">Click me</button>
+<button onclick="triggerEnterpriseMemoryIssues()">Trigger Enterprise Memory Issues</button>
+</body>
+</html>
