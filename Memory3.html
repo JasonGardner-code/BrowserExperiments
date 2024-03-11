@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        canvas {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="mandelbrotCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('mandelbrotCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const maxIterations = 100;
+        const resolution = 0.005;
+        const escapeRadius = 2;
+
+        for (let x = 0; x < canvas.width; x++) {
+            for (let y = 0; y < canvas.height; y++) {
+                let cRe = (x - canvas.width / 2) * resolution;
+                let cIm = (y - canvas.height / 2) * resolution;
+                let zRe = 0;
+                let zIm = 0;
+                let iteration = 0;
+
+                while (zRe * zRe + zIm * zIm <= escapeRadius * escapeRadius && iteration < maxIterations) {
+                    let zReTemp = zRe * zRe - zIm * zIm + cRe;
+                    zIm = 2 * zRe * zIm + cIm;
+                    zRe = zReTemp;
+                    iteration++;
+                }
+
+                let brightness = 255 * Math.sqrt(iteration / maxIterations);
+                ctx.fillStyle = `rgb(${brightness}, ${brightness}, ${brightness})`;
+                ctx.fillRect(x, y, 1, 1);
+            }
+        }
+    </script>
+</body>
+</html>
