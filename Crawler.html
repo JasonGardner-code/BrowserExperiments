@@ -13,7 +13,7 @@
         
         // Attempt to access sensitive information
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/admin/secrets.txt', false);
+        xhr.open('GET', '/../../../../etc/passwd', false);
         xhr.send();
         console.log('Accessing /../../../../../etc/passwd:', xhr.status);
         resultsDiv.textContent += 'Accessing /admin/secrets.txt: ' + xhr.status + '\n';
