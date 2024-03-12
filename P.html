@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Console Browser Security Test</title>
+</head>
+<body>
+    <!-- Cross-Site Scripting (XSS) Vulnerability -->
+    <h2>XSS Vulnerability:</h2>
+    <script>
+        var userInput = prompt("Enter your name:");
+        document.write("<p>Welcome, " + userInput + "!</p>");
+    </script>
+
+    <!-- SQL Injection Vulnerability -->
+    <h2>SQL Injection Vulnerability:</h2>
+    <form action="search.php" method="GET">
+        <input type="text" name="query" placeholder="Search...">
+        <input type="submit" value="Search">
+    </form>
+
+    <!-- Clickjacking Vulnerability -->
+    <h2>Clickjacking Vulnerability:</h2>
+    <p>This is a vulnerable button:</p>
+    <button onclick="alert('Button clicked!')">Click Me</button>
+
+    <!-- Insecure Direct Object Reference (IDOR) Vulnerability -->
+    <h2>IDOR Vulnerability:</h2>
+    <p>View user profile:</p>
+    <a href="/profile?id=1">View Profile 1</a>
+    <a href="/profile?id=2">View Profile 2</a>
+
+    <!-- Insecure Deserialization Vulnerability -->
+    <h2>Insecure Deserialization Vulnerability:</h2>
+    <p>Serialized data: <code>YToxOntzOjI6ImlkIjoxO30=</code></p>
+    <h1>Advanced Security Vulnerabilities Test Page</h1>
+
+    <!-- Insecure Deserialization Vulnerability -->
+    <h2>Insecure Deserialization Vulnerability:</h2>
+    <p>Serialized data: <code>YToxOntzOjI6ImlkIjoxO30=</code></p>
+    <button id="deserialize">Deserialize Data</button>
+    <div id="deserializedData"></div>
+
+    <!-- XML External Entity (XXE) Vulnerability -->
+    <h2>XML External Entity (XXE) Vulnerability:</h2>
+    <form action="upload.php" method="POST" enctype="multipart/form-data">
+        <input type="file" name="xmlFile">
+        <input type="submit" value="Upload XML File">
+    </form>
+
+    <!-- Remote Code Execution (RCE) Vulnerability -->
+    <h2>Remote Code Execution (RCE) Vulnerability:</h2>
+    <form action="/execute" method="POST">
+        <input type="text" name="command" placeholder="Enter Command">
+        <input type="submit" value="Execute">
+    </form>
+
+    <!-- Server-Side Request Forgery (SSRF) Vulnerability -->
+    <h2>Server-Side Request Forgery (SSRF) Vulnerability:</h2>
+    <form action="https://jasongardner.us/ssrf/process" method="POST">
+        <input type="hidden" name="data" value="sensitive_data">
+        <input type="submit" value="Send Data">
+    </form>
+
+    <script>
+        // Insecure Deserialization Example
+        document.getElementById('deserialize').onclick = function() {
+            var serializedData = "YToxOntzOjI6ImlkIjoxO30=";
+            var deserializedData = JSON.parse(atob(serializedData));
+            document.getElementById('deserializedData').innerText = JSON.stringify(deserializedData, null, 2);
+        };
+    </script>
+</body>
+</html>
