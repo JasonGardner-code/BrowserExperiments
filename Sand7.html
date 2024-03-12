@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sandbox Escape PoC</title>
+</head>
+<body>
+  <h1>Sandbox Escape PoC</h1>
+  
+  <script>
+    function playSound() {
+      try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.start(0);
+        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime); // Set volume to 20%
+        setTimeout(() => {
+          oscillator.stop();
+        }, 1000); // Stop after 1 second
+      } catch (error) {
+        alert("Sandbox escape attempt detected. Sound could not be played.");
+      }
+    }
+
+    // Automatically play sound when the page loads
+    window.onload = function() {
+      playSound();
+    };
+  </script>
+</body>
+</html>
