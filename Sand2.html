@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>So much sand...</title>
+</head>
+<body>
+  <h1>Sand</h1>
+  <button onclick="escapeSandbox()">Escape Sandbox</button>
+
+  <script>
+    function escapeSandbox() {
+      try {
+        const iframe = document.createElement('iframe');
+        iframe.srcdoc = '<script>alert("Sandbox Escaped!");</script>';
+        document.body.appendChild(iframe);
+      } catch (error) {
+        alert("Sandbox escape attempt detected. Access denied.");
+      }
+    }
+  </script>
+</body>
+</html>
