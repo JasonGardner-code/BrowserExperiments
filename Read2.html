@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CSP Test - Local File Access</title>
+<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
+</head>
+<body>
+<h1>CSP Test - Local File Access</h1>
+<p>Attempting to access a local file.</p>
+<div id="fileContents"></div>
+<div id="consoleOutput"></div>
+
+<script>
+const fileUrl = 'file:///etc/passwd';
+const fileContentsElement = document.getElementById('fileContents');
+const consoleOutputElement = document.getElementById('consoleOutput');
+
+// Save the original console.log function
+const originalConsoleLog = console.log;
+
+// Override console.log to display messages on the page
+console.log = function(message) {
+  originalConsoleLog.apply(this, arguments);
+  consoleOutputElement.innerText += message + '\n';
+};
+
+fetch(fileUrl)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${fileUrl}: ${response.status} ${response.statusText}`);
+    }
+    return response.text();
+  })
+  .then(data => {
+    fileContentsElement.innerText = data;
+  })
+  .catch(error => {
+    console.error(`Error fetching ${fileUrl}: ${error.message}`);
+    fileContentsElement.innerText = 'Error fetching file. Please check the console for details.';
+  });
+</script>
+</body>
+</html>
