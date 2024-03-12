@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Use-After-Free Memory Test Cases</title>
+</head>
+<body>
+<h1>Use-After-Free Memory Test Cases</h1>
+<div id="output"></div>
+
+<script>
+function logOutput(message) {
+    var outputDiv = document.getElementById('output');
+    outputDiv.innerHTML += `<p>${message}</p>`;
+    console.log(message);
+}
+
+// Test Case 1: Allocate and free memory
+var data1 = new Array(1000000);
+data1 = null;
+logOutput("Test Case 1 - Accessing freed memory:");
+logOutput(data1[0]); // Access freed memory
+
+// Test Case 2: Accessing freed memory after delay
+var data2 = new Array(1000000);
+data2 = null;
+setTimeout(function() {
+    logOutput("Test Case 2 - Accessing freed memory after delay:");
+    logOutput(data2[0]); // Access freed memory after delay
+}, 1000);
+
+// Test Case 3: Nested use-after-free
+var data3 = new Array(1000000);
+var temp = data3;
+data3 = null;
+logOutput("Test Case 3 - Nested use-after-free:");
+logOutput(temp[0]); // Access nested freed memory
+
+// Test Case 4: Use-after-free with event listener
+var button = document.createElement('button');
+document.body.appendChild(button);
+button.addEventListener('click', function() {
+    logOutput("Test Case 4 - Use-after-free with event listener:");
+    logOutput(data4[0]); // Access freed memory on button click
+});
+var data4 = new Array(1000000);
+data4 = null;
+
+// Test Case 5: Use-after-free in a loop
+var dataArray = [];
+for (var i = 0; i < 5; i++) {
+    var data = new Array(1000000);
+    dataArray.push(data);
+    data = null;
+}
+logOutput("Test Case 5 - Use-after-free in a loop:");
+logOutput(dataArray[0][0]); // Access freed memory in a loop
+</script>
+
+</body>
+</html>
