@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CSP Test - Local File Access</title>
+<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
+</head>
+<body>
+<h1>CSP Test - Local File Access</h1>
+<p>Attempting to access a local file.</p>
+<div id="fileContents"></div>
+
+<script>
+// Attempting to access a local file
+fetch('file:///etc/passwd')
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById('fileContents').innerText = data;
+  })
+  .catch(error => console.error(error));
+</script>
+</body>
+</html>
