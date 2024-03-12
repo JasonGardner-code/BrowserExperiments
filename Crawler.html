@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Crawler Security Test</title>
+</head>
+<body>
+    <h1>Web Crawler Security Test</h1>
+    
+    <div id="results"></div>
+    
+    <script>
+        var resultsDiv = document.getElementById('results');
+        
+        // Attempt to access sensitive information
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/admin/secrets.txt', false);
+        xhr.send();
+        console.log('Accessing /../../../../../etc/passwd:', xhr.status);
+        resultsDiv.textContent += 'Accessing /admin/secrets.txt: ' + xhr.status + '\n';
+        
+        // Attempt to perform unauthorized action
+        var form = document.createElement('form');
+        form.action = '/admin/delete';
+        form.method = 'POST';
+        document.body.appendChild(form);
+        form.submit();
+        console.log('Performing unauthorized action:', form.method, form.action);
+        resultsDiv.textContent += 'Performing unauthorized action: ' + form.method + ' ' + form.action + '\n';
+    </script>
+</body>
+</html>
