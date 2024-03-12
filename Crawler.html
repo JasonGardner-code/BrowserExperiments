@@ -13,14 +13,14 @@
         
         // Attempt to access sensitive information
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://jasongardner.us/print/2.html', false);
+        xhr.open('GET', '/{ig-media-id}/insights', false);
         xhr.send();
-        console.log('Accessing /../../../../../etc/passwd:', xhr.status);
+        console.log('/{ig-media-id}/insights:', xhr.status);
         resultsDiv.textContent += 'Accessing /admin/secrets.txt: ' + xhr.status + '\n';
         
         // Attempt to perform unauthorized action
         var form = document.createElement('form');
-        form.action = '/admin/delete';
+        form.action = '/{ig-user-id}/media_publish';
         form.method = 'POST';
         document.body.appendChild(form);
         form.submit();
