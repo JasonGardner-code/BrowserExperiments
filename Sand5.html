@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Car Browser Sandbox Escape PoC</title>
+</head>
+<body>
+<h1>Car Browser Sandbox Escape PoC</h1>
+<p>attempt to escape the browser sandbox.</p>
+
+<script>
+// Attempting to escape the sandbox
+var iframe = document.createElement('iframe');
+iframe.src = 'javascript:alert("Sandbox Escaped iframe!")';
+document.body.appendChild(iframe);
+</script>
+</body>
+</html>
