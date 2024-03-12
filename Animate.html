@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Cyberpunk 3D Scene</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <button id="startButton">Start Animations</button>
+    <input type="number" id="numCubes" min="1" max="1000000" placeholder="Enter number of cubes">
+    <label><input type="checkbox" id="redCheckbox"> Red</label>
+    <label><input type="checkbox" id="greenCheckbox"> Green</label>
+    <label><input type="checkbox" id="blueCheckbox"> Blue</label>
+    <button id="playSound">Play Sound</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.130.1/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.130.1/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const loader = new THREE.GLTFLoader();
+        loader.load('models/cyberpunk_building.glb', function (gltf) {
+            const building = gltf.scene;
+            scene.add(building);
+        });
+
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(50, 50, 50);
+        scene.add(pointLight);
+
+        camera.position.z = 30;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        document.getElementById('startButton').addEventListener('click', function() {
+            animate();
+        });
+
+        document.getElementById('playSound').addEventListener('click', function() {
+            // Add sound playing logic here
+        });
+
+        // Add logic to create cubes based on input number and colors selected
+        function createCubes(numCubes, red, green, blue) {
+            // Add cube creation logic here
+        }
+
+        document.getElementById('numCubes').addEventListener('change', function() {
+            const numCubes = parseInt(document.getElementById('numCubes').value);
+            const red = document.getElementById('redCheckbox').checked;
+            const green = document.getElementById('greenCheckbox').checked;
+            const blue = document.getElementById('blueCheckbox').checked;
+            createCubes(numCubes, red, green, blue);
+        });
+    </script>
+</body>
+</html>
