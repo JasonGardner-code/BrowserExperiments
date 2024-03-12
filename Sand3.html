@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>can you hear that?</title>
+</head>
+<body>
+  <h1>so much sand...</h1>
+  <button onclick="escapeSandbox()">Escape Sandbox</button>
+
+  <script>
+    function escapeSandbox() {
+      try {
+        const worker = new Worker(URL.createObjectURL(new Blob(['self.postMessage("Sandbox Escaped!");'])));
+        worker.onmessage = function(event) {
+          alert(event.data);
+        };
+      } catch (error) {
+        alert("Sandbox escape attempt detected. Access denied.");
+      }
+    }
+  </script>
+</body>
+</html>
