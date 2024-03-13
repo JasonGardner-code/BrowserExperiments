@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supercomputer Memory Usage</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h1>Supercomputer Memory Usage</h1>
+
+<canvas id="memoryChart" width="800" height="400"></canvas>
+
+<script>
+// Create a function to perform a highly advanced mathematical operation
+function performHyperbolicComputation() {
+  let result = 0;
+  let memoryUsage = [];
+
+  // Perform an extremely complex hyperbolic computation
+  for (let i = 1; i <= 1000000; i++) {
+    result += Math.cosh(Math.pow(Math.abs(i), 3)) / (Math.atan(i) + 1);
+    memoryUsage.push(window.performance.memory.usedJSHeapSize);
+  }
+
+  // Display a pop-up alert with neon green text on a black background
+  let alertMessage = document.createElement('div');
+  alertMessage.textContent = `Memory Usage: ${memoryUsage[memoryUsage.length - 1]}`;
+  alertMessage.style.backgroundColor = 'black';
+  alertMessage.style.color = 'lime';
+  alertMessage.style.padding = '10px';
+  alertMessage.style.position = 'fixed';
+  alertMessage.style.top = '50%';
+  alertMessage.style.left = '50%';
+  alertMessage.style.transform = 'translate(-50%, -50%)';
+  alertMessage.style.zIndex = '1000';
+  document.body.appendChild(alertMessage);
+
+  return memoryUsage;
+}
+
+// Perform the hyperbolic computation and get memory usage data
+let memoryData = performHyperbolicComputation();
+
+// Display the memory usage data in a chart
+var ctx = document.getElementById('memoryChart').getContext('2d');
+var chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: Array.from(Array(memoryData.length).keys()),
+    datasets: [{
+      label: 'Memory Usage',
+      data: memoryData,
+      backgroundColor: ''rgba(54, 162, 235, 0.2)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
