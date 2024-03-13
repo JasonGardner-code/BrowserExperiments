@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Use-After-Free Vulnerability Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Use-After-Free Vulnerability Demo</h1>
+  <div class="result" id="result"></div>
+
+  <script>
+    let obj = {}; // Allocate memory for an object
+
+    function useAfterFree() {
+      let temp = obj; // Store reference to object
+      obj = null; // Free the object
+      return temp; // Return the reference to the freed object
+    }
+
+    let freeObj = useAfterFree(); // Call the function to obtain the freed object
+
+    let resultDiv = document.getElementById('result');
+    resultDiv.textContent = `Result: ${freeObj ? 'Use-After-Free Vulnerability Detected' : 'Memory Freed Successfully'}`;
+  </script>
+</body>
+</html>
