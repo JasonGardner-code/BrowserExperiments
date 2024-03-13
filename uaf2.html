@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complex Memory Execution Scenario with V8</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/v8/9.0.257.23/v8.js"></script>
+</head>
+<body>
+  <h1>Complex Memory Execution Scenario with V8</h1>
+  <div id="result"></div>
+
+  <script>
+    let isolate = new v8.Isolate(); // Create a new V8 Isolate
+
+    let ptr1 = new v8.Pointer(isolate, 10); // Allocate memory for an integer and assign value
+    let ptr2 = new v8.Pointer(isolate, 20);
+    let ptr3 = new v8.Pointer(isolate, 30);
+
+    // Free the memory allocated for ptr2
+    ptr2.free();
+
+    // Use-after-free vulnerability: access memory freed by ptr2 through ptr3
+    let valueAtPtr3 = ptr3.get();
+    document.getElementById('result').innerText = `Value at ptr3 after free: ${valueAtPtr3}`;
+
+    // Allocate memory for a new integer
+    ptr2 = new v8.Pointer(isolate, 40);
+
+    // Display the values of the pointers
+    document.getElementById('result').innerText += `\nValue at ptr1: ${ptr1.get()}`;
+    document.getElementById('result').innerText += `\nValue at ptr2: ${ptr2.get()}`;
+    document.getElementById('result').innerText += `\nValue at ptr3: ${ptr3.get()}`;
+
+    // Manipulate memory by doubling the value at ptr1
+    let newValue = ptr1.get() * 2;
+    ptr1.set(newValue);
+    document.getElementById('result').innerText += `\nNew value at ptr1: ${ptr1.get()}`;
+
+    // Create a new pointer and swap values with ptr3
+    let ptr4 = new v8.Pointer(isolate, 50);
+    let temp = ptr4.get();
+    ptr4.set(ptr3.get());
+    ptr3.set(temp);
+    document.getElementById('resultdocument.getElementById('result').innerText += `\nValue at ptr4: ${ptr4.get()}`;
+    document.getElementById('result').innerText += `\nValue at ptr3 after swapping: ${ptr3.get()}`;
+
+    // Allocate memory for an array of integers and display the values
+    let arrayPtr = new v8.Pointer(isolate, [1, 2, 3, 4, 5]);
+    let arrayValues = arrayPtr.get();
+    document.getElementById('result').innerText += `\nArray values: ${arrayValues.join(', ')}`;
+
+    // Modify the array values by squaring them
+    arrayValues = arrayValues.map(value => value ** 2);
+    arrayPtr.set(arrayValues);
+    document.getElementById('result').innerText += `\nArray values squared: ${arrayPtr.get().join(', ')}`;
+
+    // Free the memory allocated for all pointers
+    ptr1.free();
+    ptr2.free();
+    ptr3.free();
+    ptr4.free();
+    arrayPtr.free();
+  </script>
+</body>
+</html>
