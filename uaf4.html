@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Execution Scenario Results</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/v8/9.0.257.23/v8.js"></script>
+</head>
+<body>
+  <h1>Memory Execution Scenario Results</h1>
+  <div id="result"></div>
+
+  <script>
+    let isolate = new v8.Isolate(); // Create a new V8 Isolate
+
+    let vulnerablePtr = new v8.Pointer(isolate, 100); // Allocate memory for a vulnerable pointer
+    let safePtr = new v8.Pointer(isolate, 200); // Allocate memory for a safe pointer
+
+    // Simulate a buffer overflow vulnerability by writing outside the allocated memory of vulnerablePtr
+    vulnerablePtr.buffer[1] = 42;
+
+    // Check if the buffer overflow affected the safePtr value
+    let safePtrValue = safePtr.get();
+    document.getElementById('result').innerText = `Value at safePtr after buffer overflow: ${safePtrValue}`;
+
+    // Mitigate the buffer overflow vulnerability by using bounds checking
+    if (vulnerablePtr.buffer.length >= 2) {
+      vulnerablePtr.buffer[1] = 0; // Reset the value within bounds
+    }
+
+    // Verify that the safePtr value remains unaffected by the bounds-checked buffer overflow
+    safePtrValue = safePtr.get();
+    document.getElementById('result').innerText += `\nValue at safePtr after mitigation: ${safePtrValue}`;
+
+    // Free the memory allocated for both pointers
+    vulnerablePtr.free();
+    safePtr.free();
+  </script>
+</body>
+</html>
