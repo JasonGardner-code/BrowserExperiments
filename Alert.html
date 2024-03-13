@@ -1,0 +1,33 @@
+<html>
+<head>
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 4 columns */
+      grid-gap: 20px;
+    }
+
+    .tile {
+      border: 1px solid black;
+      padding: 10px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-container">
+    <div class="tile">
+      <iframe src="http://127.0.1.1:8000/c.html"></iframe>
+    </div>
+    <div class="tile">
+      <iframe src="/mario.mp4"></iframe>
+    </div>
+    <!-- Repeat the tile structure for all 20 HTML pages -->
+  </div>
+</body>
+</html>
