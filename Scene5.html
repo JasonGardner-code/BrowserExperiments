@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Psychedelic Rorschach</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.130.1/build/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const clock = new THREE.Clock();
+
+        function createPsychedelicPattern() {
+            const geometry = new THREE.CircleGeometry(10, 100);
+            const material = new THREE.ShaderMaterial({
+                vertexShader: `
+                    varying vec2 vUv;
+                    void main() {
+                        vUv = uv;
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    varying vec2 vUv;
+                    uniform float time;
+                    void main() {
+                        float color = sin(time) * 0.5 + 0.5;
+                        float glitch = mod(time * 10.0, 1.0);
+                        float staticEffect = step(fract(time), 0.5);
+                        vec3 finalColor = mix(vec3(color), vec3(glitch, 1.0, glitch), staticEffect);
+                        gl_FragColor = vec4(finalColor, 1.0);
+                    }
+                `,
+                uniforms: {
+                    time: { value: 0.0 }
+                }
+            });
+
+            const circle = new THREE.Mesh(geometry, material);
+            scene.add(circle);
+
+            const animatePsychedelicPattern = () => {
+                const elapsedTime = clock.getElapsedTime();
+
+                material.uniforms.time.value = elapsedTime;
+
+                renderer.render(scene, camera);
+
+                requestAnimationFrame(animatePsychedelicPattern);
+            };
+
+            animatePsychedelicPattern();
+        }
+
+        camera.position.z = 30;
+        createPsychedelicPattern();
+    </script>
+</body
