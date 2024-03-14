@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matrix Rain with Wireframe Key</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script>
+        const container = document.getElementById('container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        const keyShape = new THREE.Shape();
+        keyShape.moveTo(0, 0);
+        keyShape.lineTo(0, 50);
+        keyShape.lineTo(25, 75);
+        keyShape.lineTo(25, 100);
+        keyShape.lineTo(0, 75);
+        keyShape.lineTo(0, 100);
+        keyShape.lineTo(30, 130);
+        keyShape.lineTo(30, 0);
+        keyShape.lineTo(0, 0);
+
+        const keyGeometry = new THREE.ShapeGeometry(keyShape);
+        const keyMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
+        const key = new THREE.Mesh(keyGeometry, keyMaterial);
+        scene.add(key);
+
+        camera.position.z = 100;
+
+        const charSet = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん';
+        const charArray = charSet.split('');
+        const drops = [];
+
+        function draw() {
+            charArray.forEach((char) => {
+                const text = document.createElement('div');
+                text.innerText = char;
+                text.style.position = 'absolute';
+                text.style.color = 'lime';
+                text.style.fontFamily = 'monospace';
+                text.style.fontSize = '20px';
+                text.style.left = `${Math.floor(Math.random() * window.innerWidth)}px`;
+                text.style.top = `${Math.floor(Math.random() * window.innerHeight)}px`;
+container.appendChild(text);
+
+                const drop = document.createElement('div');
+                drop.innerText = char;
+                drop.style.position = 'absolute';
+                drop.style.color = 'lime';
+                drop.style.fontFamily = 'monospace';
+                drop.style.fontSize = '20px';
+                drop.style.left = `${Math.floor(Math.random() * window.innerWidth)}px`;
+                drop.style.top = '0';
+                container.appendChild(drop);
+
+                const speed = Math.random() * 10 + 5;
+
+                drops.push({
+                    text: text,
+                    drop: drop,
+                    speed: speed
+                });
+            });
+
+            animate();
+        }
+
+        function animate() {
+            drops.forEach((drop) => {
+                const top = parseInt(drop.drop.style.top, 10);
+                drop.drop.style.top = `${top + drop.speed}px`;
+
+                if (top > window.innerHeight) {
+                    drop.drop.style.top = '0';
+                }
+            });
+
+            renderer.render(scene, camera);
+
+            requestAnimationFrame(animate);
+        }
+
+        draw();
+    </script>
+</body>
+</html>
