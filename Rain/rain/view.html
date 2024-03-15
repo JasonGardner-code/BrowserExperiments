@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Viewer with Thumbnails</title>
+    <style>
+        .page-thumbnail {
+            display: inline-block;
+            margin: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .thumbnail-img {
+            max-width: 200px;
+            max-height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Pages in the Folder:</h1>
+    <div id="page-thumbnails"></div>
+    
+    <script>
+        var pageThumbnails = document.getElementById('page-thumbnails');
+
+        // Fetch all HTML files in the current directory
+        fetch('./')
+            .then(response => response.text())
+            .then(data => {
+                var parser = new DOMParser();
+                var htmlDoc = parser.parseFromString(data, 'text/html');
+                var links = htmlDoc.links;
+                
+                links.forEach(link => {
+                    if (link.href.endsWith('.html')) {
+                        var pageThumbnail = document.createElement('div');
+                        pageThumbnail.classList.add('page-thumbnail');
+
+                        // Load the HTML page to extract a thumbnail
+                        fetch(link.href)
+                            .then(response => response.text())
+                            .then(pageData => {
+                                var pageParser = new DOMParser();
+                                var pageDoc = pageParser.parseFromString(pageData, 'text/html');
+                                var pageImage = pageDoc.querySelector('img');
+                                
+                                if (pageImage) {
+                                    var thumbnailImg = document.createElement('img');
+                                    thumbnailImg.src = pageImage.src;
+                                    thumbnailImg.classList.add('thumbnail-img');
+                                    pageThumbnail.appendChild(thumbnailImg);
+                                }
+                                pageThumbnails.appendChild(pageThumbnail);
+                            });
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
