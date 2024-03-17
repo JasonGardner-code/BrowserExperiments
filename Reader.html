@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Local File</title>
+</head>
+<body>
+    <h1>Contents of fileToDisplay.txt:</h1>
+    <pre id="fileContents"></pre>
+
+    <script>
+        fetch('file:///C:/fileToDisplay.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('fileContents').textContent = data;
+            })
+            .catch(error => {
+                console.error('Error fetching file:', error);
+            });
+    </script>
+</body>
+</html>
