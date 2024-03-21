@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebAssembly Example</title>
+</head>
+<body>
+    <script type="module">
+        import { instantiate } from './test32124.js'; // Import the WebAssembly runtime (e.g., Go's wasm_exec.js)
+        
+        // Define the import object for the WebAssembly module
+        let importObject0 = { /* Import object properties */ };
+
+        // Instantiate the WebAssembly module
+        (async () => {
+            let i0 = await instantiate('./32124.wasm', importObject0);
+            let { fn3 } = i0.instance.exports;
+
+            // Call fn3 or perform other operations with the WebAssembly module
+        })();
+    </script>
+</body>
+</html>
