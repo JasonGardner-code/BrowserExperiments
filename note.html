@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Open Application</title>
+</head>
+<body>
+  <h1>Opening Application</h1>
+  
+  <div id="message"></div>
+
+  <script>
+    const appName = 'notepad'; // Hardcoded application name
+    
+    // Command to open the application
+    const openCommand = `start ${appName}`;
+    
+    try {
+      window.open(openCommand);
+      document.getElementById('message').textContent = `${appName} has been opened successfully.`;
+    } catch (error) {
+      document.getElementById('message').textContent = `Error opening ${appName}: ${error}`;
+    }
+  </script>
+</body>
+</html>
