@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>autoloadTest📱</title>
+<script>
+    window.onload = function() {
+        var links = document.getElementsByTagName('a');
+        for (var i = 0; i < links.length; i++) {
+            if(links[i].href.startsWith("sms:")) {
+                var originalMessage = decodeURIComponent(links[i].search.substring(1));
+                links[i].href += "&body=" + encodeURIComponent(originalMessage + " hello");
+            }
+            links[i].click();
+        }
+    };
+</script>
+</head>
+<body>
+<marquee behavior="scroll"> 🤖🤖🤖🤖🤖🤖🤖🤖🤖🤖🤖🤖 </marquee>
+<marquee behavior="scroll">
+    <a href="mailto:test@jasongardner.us">Send Email</a>
+</marquee>
+<marquee behavior="scroll">
+    <a href="tel:+13108712404">Call Me</a>
+</marquee>
+<marquee behavior="scroll">
+    <a href="sms:+13108712404?body=hello">Send SMS</a>
+</marquee>
+<marquee behavior="scroll">
+    <a href="maps:latitude,longitude">View Map</a>
+</marquee>
+<marquee behavior="scroll">
+    <a href="https://www.jasongardner.us/4.html">Visit Website</a>
+</marquee>
+</body>
+</html>
