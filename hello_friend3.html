@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PoC - Open Terminal with ASCII Art via Chromium Vulnerability</title>
+</head>
+<body>
+    <h1>Click the button to exploit the vulnerability in Chromium</h1>
+    <button onclick="exploit()">Exploit</button>
+
+    <script>
+        function exploit() {
+            try {
+                // Create a simple image element with base64 encoded data
+                var img = document.createElement('img');
+                img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAANFJREFUOI1jYBimzJ/If0P4D2D5TyH5nwSx3hMB7HYh9DW6DS6gQiHCnwbxPnD6QUiGAULKGZoGg6TL68N1xKnHC10FQBpCsIBlg6TDKEkJmXMAyjEYGHC6Sk0EbMNAJNTbJjINMgAuYGaAwkxc4hgMX/gUTb8GYQLSBxaG0xDOAVmb0O1QqPEYf1FpT7DD6/BGiRh1kMcCp8HkgWcmgkRc8xEIB9JmPEdTYpYAZObN0dXNU88AhyMmWIZI3FcAAAAASUVORK5CYII=";
+                img.onload = function() {
+                    alert('Image loaded successfully!');
+                    var event = new CustomEvent('exploit', {detail: {cmd: 'cmd.exe /c echo JASON'}});
+                    window.dispatchEvent(event);
+                };
+                document.body.appendChild(img);
+
+                // Add event listener to execute the exploit
+                window.addEventListener('exploit', function(e) {
+                    console.log('Exploit event triggered with command: ' + e.detail.cmd);
+                    // Note: This part will not work without proper permissions and the right environment
+                    // For demonstration purposes only
+                });
+            } catch (e) {
+                console.error('Exploit failed', e);
+            }
+        }
+    </script>
+</body>
+</html>
